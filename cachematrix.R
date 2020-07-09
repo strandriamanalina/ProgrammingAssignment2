@@ -9,16 +9,15 @@ makeCacheMatrix <- function(x = matrix()) {
   # Initialize the solution as a matrix
   solution <- NULL
   
-  # Setter function that sets
+  # Setter function
   set <- function(y) {
-    x <<- y
-    solution <<- NULL
+    x <<- y # Assign the input argument to the x object in the parent environment
+    solution <<- NULL # Assigns NULL to solution. So this clears any value stored in solution before the execution of cacheSolve() 
   }
-  get <- function() x
-  setsolution <- function(inv) solution <<- inv
-  getsolution <- function() solution
+  get <- function() x # This gets the value of x from the parent environment
+  setsolution <- function(inv) solution <<- inv # Another setter function : assigns the inverse to solution when setsolution(solution) is called
+  getsolution <- function() solution # This just gets the solution
   
-
   # stores the named setters and getters inside a list
   list(set = set, get = get,
        setsolution = setsolution,
@@ -32,36 +31,34 @@ makeCacheMatrix <- function(x = matrix()) {
 ## then the cachesolve should retrieve the inverse from the cache.
 
 cacheSolve <- function(x, ...) {
-  # Attempts to get the inverse matrix
+  # Attempts to get the inverse matrix and assigning it to solution
   solution <- x$getsolution()
 
-    # checks if the solution is not empty, if not empty, prints the cached solution
+    # checks if the solution is not empty: if not empty, prints the cached solution
   if(!is.null(solution)) {
     message("getting cached data")
-    return(solution)
+    return(solution) 
   }
   
-  # if the solution is empty, gets the matrix from the input
+  # if the solution is empty, gets the matrix to be solved from the input
   m <- x$get()
-
-  # calcultes andd returns the inverse & returns the value of the solution to the parent environment
-  solution <- try(solve(m, ...))
-  x$setsolution(solution)
-  solution
+  
+  # calculates and returns the inverse
+  solution <- solve(m, ...)
+  x$setsolution(solution) # assigns the calculated solution to the parent environment
+  solution # returns the solution
 }
 
-m <- matrix(c(1,4,2,18,12,29, 34, 1, 2), 3, 3)
-m <- makeCacheMatrix(m)
-w <- cacheSolve(m)
+# Testing 1
+n1 <- matrix(c(1,0,0,1), nrow = 2, ncol = 2)
+myMatrix_object <- makeCacheMatrix(n1)
+cacheSolve(myMatrix_object)
+
+# testing 2
+n2 <- matrix(c(6,2,8,4), nrow = 2, ncol = 2)
+myMatrix_object <- makeCacheMatrix(n2)
+cacheSolve(myMatrix_object)
 
 
-solve(matrix(c(1,4,2,18,12,29, 34, 1, 2), 3, 3))
 
 
-ls(envir = environment(m$set))
-
-get("solution", envir = environment(m$set))
-
-get("setsolution", envir = environment(m$set))
-
-?solve
