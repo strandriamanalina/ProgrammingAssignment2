@@ -12,11 +12,11 @@ makeCacheMatrix <- function(x = matrix()) {
   # Setter function
   set <- function(y) {
     x <<- y # Assign the input argument to the x object in the parent environment
-    solution <<- NULL # Assigns NULL to solution. So this clears any value stored in solution before the execution of cacheSolve() 
+    solution <<- NULL # Assigns NULL to solution. This clears any value stored in solution before the execution of cacheSolve() 
   }
   get <- function() x # This gets the value of x from the parent environment
   setsolution <- function(inv) solution <<- inv # Another setter function : assigns the inverse to solution when setsolution(solution) is called
-  getsolution <- function() solution # This just gets the solution
+  getsolution <- function() solution # This gets the solution 
   
   # stores the named setters and getters inside a list
   list(set = set, get = get,
@@ -49,16 +49,18 @@ cacheSolve <- function(x, ...) {
   solution # returns the solution
 }
 
-# Testing 1
-n1 <- matrix(c(1,0,0,1), nrow = 2, ncol = 2)
-myMatrix_object <- makeCacheMatrix(n1)
-cacheSolve(myMatrix_object)
-
-# testing 2
-n2 <- matrix(c(6,2,8,4), nrow = 2, ncol = 2)
-myMatrix_object <- makeCacheMatrix(n2)
-cacheSolve(myMatrix_object)
-
-
-
+# Testing
+# n1 <- matrix(c(1,0,0,1), nrow = 2, ncol = 2)
+# myMatrix_object <- makeCacheMatrix(n1)
+# cacheSolve(myMatrix_object)
+# 
+# # testing 2
+# n2 <- matrix(c(6,2,8,4), nrow = 2, ncol = 2)
+# myMatrix_object <- makeCacheMatrix(n2)
+# cacheSolve(myMatrix_object)
+# 
+# 
+# n3 <- n2 <- matrix(c(5/8, -1/8, -7/8, 3/8), nrow = 2, ncol = 2)
+# myMatrix_object$set(n3)
+# cacheSolve(myMatrix_object)
 
