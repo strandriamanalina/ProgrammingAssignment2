@@ -15,7 +15,7 @@ makeCacheMatrix <- function(x = matrix()) {
     solution <<- NULL
   }
   get <- function() x
-  setsolution <- function(solve) solution <<- solve
+  setsolution <- function(inv) solution <<- inv
   getsolution <- function() solution
   
 
@@ -42,21 +42,26 @@ cacheSolve <- function(x, ...) {
   }
   
   # if the solution is empty, gets the matrix from the input
-  mat <- x$get()
-  
+  m <- x$get()
+
   # calcultes andd returns the inverse & returns the value of the solution to the parent environment
-  solution <- solve(as.matrix(mat))
+  solution <- try(solve(m, ...))
   x$setsolution(solution)
   solution
 }
 
 m <- matrix(c(1,4,2,18,12,29, 34, 1, 2), 3, 3)
-nrow(m)
-ncol(m)
 m <- makeCacheMatrix(m)
-cacheSolve(m)
+w <- cacheSolve(m)
 
 
 solve(matrix(c(1,4,2,18,12,29, 34, 1, 2), 3, 3))
 
 
+ls(envir = environment(m$set))
+
+get("solution", envir = environment(m$set))
+
+get("setsolution", envir = environment(m$set))
+
+?solve
